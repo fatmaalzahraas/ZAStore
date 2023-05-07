@@ -4,7 +4,7 @@ const server = jsonServer.create();
 const router = jsonServer.router('./src/assets/data/products.json');
 const middlewares = jsonServer.defaults();
 server.get("/favicon.ico", (req, res) => {
-res.status("200").sendFile(path(__dirname + "/favicon.ico")) 
+res.status("200").sendFile(path(__dirname + "/public/favicon.ico")) 
 });
 const port = 8000;
 server.use(middlewares);

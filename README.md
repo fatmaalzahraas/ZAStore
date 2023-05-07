@@ -1,10 +1,7 @@
 # React & Redux-Toolkit e-commerce website (ZAStore)
 
-# Heroku zastore link
-`https://zastore.herokuapp.com/`
-
 # Github zastore link
-`https://github.com/fatmaalzahraas/za-store.git`
+`https://github.com/fatmaalzahraas/zastore.git`
 
 # Run project
 ## `npm install`
