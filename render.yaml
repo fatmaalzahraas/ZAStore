@@ -1,7 +1,0 @@
-name: zastore
-buildCommand: npm run build
-publishDir: build
-routes:
-  - src: "/api"
-    dest: "http://localhost:5000"
-startCommand: node server.js
