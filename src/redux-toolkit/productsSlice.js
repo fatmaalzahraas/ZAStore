@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-const API_URL = "http://localhost:8000/products";
+const API_URL = "http://zastore.onrender.com/products";
 export const fetchProducts = createAsyncThunk(
   "products/fetchProducts",
   async (_, thunkAPI) => {
