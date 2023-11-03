@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useMemo } from "react";
 import PageTitle from "../../components/PageTitle/PageTitle";
 import PageUi from "../../components/PageBeginngUi/PageUi";
 import ProductList from "../../components/ProductsContent/ProductList";
@@ -55,7 +55,7 @@ import {
   fetchProductDetails,
   removeSelectedProduct
 } from "../../redux-toolkit/productsSlice";
-import Loading from "../../customHooks/Loading";
+import Loading from "../../components/Loading";
 const ProductDetails = () => {
   const [tab, setTab] = useState("desc");
   const [rate, setRate] = useState(null);
@@ -64,7 +64,6 @@ const ProductDetails = () => {
   const dispatch = useDispatch();
   const { id } = useParams();
   const { product, products, loading, error} = useSelector((state) => state.products);
-  const item = products?.find(el => el.id === id);
   const {
     productName,
     imgUrl,
@@ -79,7 +78,7 @@ const ProductDetails = () => {
       dispatch(addToCart({ id, productName, imgUrl: imgUrl, price }));
       toast.success("Product added to cart successfully");
   };
-  const ratingStars = Array.from({ length: 5 }, (el, index) => {
+  const ratingStars = useMemo(() => { return Array.from({ length: 5 }, (el, index) => {
     let number = index + 0.5;
     return (
       <StarSpan key={index}>
@@ -92,7 +91,7 @@ const ProductDetails = () => {
         )}
       </StarSpan>
     );
-  });
+  })}, [avgRating]);
   const handleSubmit = (e) => {
     e.preventDefault();
     const userNameReview = userReviewName.current.value;
@@ -110,9 +109,14 @@ const ProductDetails = () => {
   const similarProducts = products.filter((el) => el.category === category);
   useEffect(() => {
     dispatch(fetchProducts());
-    dispatch(fetchProductDetails(id));
+  }, [dispatch]);
+  useEffect(() => {
+    if (id) {
+      dispatch(fetchProductDetails(id));
+    }
     return () => dispatch(removeSelectedProduct());
-  }, [dispatch, id]);
+    
+  }, [dispatch,id])
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [product]);
@@ -122,8 +126,7 @@ const ProductDetails = () => {
       <ProductDetailsSection>
         <MainContainer>
         <Loading loading={loading} error={error}>
-        {item ? 
-          Object.keys(product).length > 0 && (
+        {Object.keys(product).length > 0 ? 
             <>
             <ProductDetailsWrapper>
             <LeftContainer>
@@ -260,7 +263,6 @@ const ProductDetails = () => {
             </MainContainer>
           </ProductDetailsNavWrapper>
             </>
-        )
          : <NoProduct>Sorry This Item Not Found</NoProduct>}
         </Loading>
          

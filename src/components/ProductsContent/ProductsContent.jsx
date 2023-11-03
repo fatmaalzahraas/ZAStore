@@ -1,9 +1,10 @@
 import { MainContainer } from "../../globalStyles/Global.styles";
 import ProductList from "./ProductList";
 import { ProductsHeading, ProductsCategorySection } from "./Products.style";
-import Loading from '../../customHooks/Loading';
+import Loading from '../Loading';
 import { useSelector } from "react-redux";
-const ProductsContent = ({ filteredByCategory, title }) => {
+import { memo } from "react";
+const ProductsContent = memo(({ filteredByCategory, title }) => {
   const {loading, error} = useSelector(state => state.products);
   return (
     <ProductsCategorySection>
@@ -15,5 +16,5 @@ const ProductsContent = ({ filteredByCategory, title }) => {
       </MainContainer>
     </ProductsCategorySection>
   );
-};
+});
 export default ProductsContent;

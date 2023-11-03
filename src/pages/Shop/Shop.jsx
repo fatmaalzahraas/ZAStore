@@ -17,72 +17,46 @@ import {
 import { MainContainer } from "../../globalStyles/Global.styles";
 import ProductList from "../../components/ProductsContent/ProductList";
 import { fetchProducts } from "../../redux-toolkit/productsSlice";
-import Loading from '../../customHooks/Loading';
+import Loading from '../../components/Loading';
 const Shop = () => {
   const { products, loading, error } = useSelector((state) => state.products);
   const [productsData, setProductsData] = useState(products);
-  
+  const [searchValue, setSearchValue] = useState("");
+  const [selectValue, setSelectValue] = useState('')
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchProducts());
   }, [dispatch]);
   useEffect(() => {
-    setProductsData(products);
-  }, [products]);
+    const applyFilters = () => {
+      let filteredProducts = products;
+
+      if (searchValue) {
+        const regx = new RegExp(searchValue, 'i');
+        filteredProducts = filteredProducts.filter(product =>
+          regx.test(product.productName) || regx.test(product.category)
+        );
+      }
+
+      if (selectValue && selectValue !== 'all') {
+        filteredProducts = filteredProducts.filter(product =>
+          product.category === selectValue
+        );
+      }
+      
+
+      setProductsData(filteredProducts);
+    };
+
+    applyFilters();
+  }, [products, searchValue, selectValue]);
+
+  
+ 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-  const handleFilterByCategory = (e) => {
-    const filterValue = e.target.value;
-    const filteredProducts = products.filter(
-      (product) => product.category === filterValue
-    );
-    setProductsData(filteredProducts);
-    if (filterValue === "all") {
-      setProductsData(products);
-    }
-    if (filterValue === "asc") {
-      const filteredProducts = products
-        .slice()
-        .sort((el1, el2) => el1.productName.localeCompare(el2.productName));
-      setProductsData([...filteredProducts]);
-    }
-    if (filterValue === "desc") {
-      const filteredProducts = products
-        .slice()
-        .sort((el1, el2) => el2.productName.localeCompare(el1.productName));
-      setProductsData([...filteredProducts]);
-    }
-    if (filterValue === "lowest price") {
-      const filteredProducts = products
-        .slice()
-        .sort((el1, el2) =>
-          el1.price
-            .toString()
-            .localeCompare(el2.price, undefined, { numeric: true })
-        );
-      setProductsData([...filteredProducts]);
-    }
-    if (filterValue === "highest price") {
-      const filteredProducts = products
-        .slice()
-        .sort((el1, el2) =>
-          el2.price
-            .toString()
-            .localeCompare(el1.price, undefined, { numeric: true })
-        );
-      setProductsData([...filteredProducts]);
-    }
-  };
-  const handleFilterBySearch = (e) => {
-    const searchValue = e.target.value;
-    const filteredProducts = products.filter(
-      (product) =>
-        product.productName.toLowerCase().includes(searchValue.toLowerCase()) ||
-        product.category.toLowerCase().includes(searchValue.toLowerCase())
-    );
-    setProductsData(filteredProducts);
-  };
+  
   return (
     <PageTitle title="Shop">
       <PageUi title="Products" />
@@ -90,7 +64,7 @@ const Shop = () => {
         <MainContainer>
           <FilteringWrapper>
             <FilterBox>
-              <SelectBox onChange={handleFilterByCategory}>
+              <SelectBox onChange={(e) => setSelectValue(e.target.value)}>
                 <Option value="all">Filter Products By(All)</Option>
                 <Option disabled>Filter By Category</Option>
                 <Option value="mobile">Mobile</Option>
@@ -98,15 +72,10 @@ const Shop = () => {
                 <Option value="wireless">Wireless</Option>
                 <Option value="chair">Chair</Option>
                 <Option value="sofa">Sofa</Option>
-                <Option disabled>Sort By</Option>
-                <Option value="asc">Ascending</Option>
-                <Option value="desc">Descending</Option>
-                <Option value="lowest price">Price(Lowest First)</Option>
-                <Option value="highest price">Price(Highest First)</Option>
               </SelectBox>
             </FilterBox>
             <SearchFilter>
-              <SearchInput onChange={handleFilterBySearch} />
+              <SearchInput onChange={(e) => setSearchValue(e.target.value)} />
               <SearchIcon />
             </SearchFilter>
           </FilteringWrapper>
@@ -114,11 +83,13 @@ const Shop = () => {
         <FilterDataSection>
           <MainContainer>
           <Loading loading={loading} error={error}>
-           {productsData.length === 0 ? (
+           {searchValue === '' && selectValue === 'all' ? <ProductList data={products}/> : (
+            productsData.length === 0 ? (
               <FilterHeading>No products are found!</FilterHeading>
             ) : (
                 <ProductList data={productsData} /> 
-            )}
+            )
+           )}
             </Loading>
           </MainContainer>
         </FilterDataSection>

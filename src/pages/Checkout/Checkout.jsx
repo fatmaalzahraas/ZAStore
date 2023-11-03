@@ -17,7 +17,7 @@ import {
 } from "./Checkout.style";
 import { MainContainer } from "../../globalStyles/Global.styles";
 import { useSelector } from "react-redux";
-import WithGuard from "../../customHooks/WithGuard";
+import WithGuard from "../../components/WithGuard";
 const Checkout = () => {
   const { totalAmount, totalQuantity } = useSelector((state) => state.cart);
   return (

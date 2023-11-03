@@ -30,7 +30,7 @@ import { signOut } from "firebase/auth";
 import { auth } from "../../firebase.config";
 import { toast } from "react-toastify";
 import UserIcon from '../../assets/imgs/user-icon-main.avif';
-import GetData from "../../customHooks/GetData";
+import useGetUsers from "../../customHooks/useGetUsers";
 const navLinks = [
   {
     path: "/",
@@ -51,7 +51,7 @@ const Header = () => {
   const navigationRef = useRef(null);
   const navigate = useNavigate();
   const { currentUser } = UseAuth();
-  const {data} = GetData();
+  const {data} = useGetUsers();
   const [user, setUser] = useState(false);
   useMemo(() => {
     return data?.map(el => {
@@ -80,9 +80,6 @@ const Header = () => {
       .catch((error) => {
         toast.error(error.message);
       });
-  };
-  const navigateFn = () => {
-    navigate("cart");
   };
   const navigationMenuToggling = () => {
     navigationRef.current.classList.toggle("menu-active");
@@ -121,7 +118,7 @@ const Header = () => {
               </NavMenu>
             </Navigation>
             <NavIconsContainer>
-              <CartBagContainer onClick={navigateFn}>
+              <CartBagContainer onClick={() => navigate('cart')}>
                 <CartBagIcon></CartBagIcon>
                 <CartBagItemsNumber>{totalQuantity}</CartBagItemsNumber>
               </CartBagContainer>

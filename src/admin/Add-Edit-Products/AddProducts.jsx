@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import WithGuard from "../../customHooks/WithGuard";
+import WithGuard from "../../components/WithGuard";
 import { MainContainer } from "../../globalStyles/Global.styles";
 import {
   AddEditProductsSection,
@@ -17,7 +17,7 @@ import {
 import PageTitle from "../../components/PageTitle/PageTitle";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import Loading from "../../customHooks/Loading";
+import Loading from "../../components/Loading";
 import { addProduct } from "../../redux-toolkit/productsSlice";
 import { useDispatch, useSelector } from "react-redux";
 import AdminNavbar from "../AdminNavbar/AdminNavbar";

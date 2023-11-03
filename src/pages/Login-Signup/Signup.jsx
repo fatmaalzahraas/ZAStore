@@ -20,7 +20,7 @@ import { setDoc, doc, serverTimestamp} from "firebase/firestore";
 import {auth, storage, db} from '../../firebase.config';
 import {toast} from 'react-toastify';
 import { useNavigate } from "react-router-dom";
-import Loading from '../../customHooks/Loading';
+import Loading from '../../components/Loading';
 const Signup = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -41,12 +41,10 @@ const Signup = () => {
         toast.error(error.message);
       }, () => {
         getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
-          //update user profile
           await updateProfile(user, {
             displayName: username,
             photoURL: downloadURL
           })
-          //store user data in firestore database
           await setDoc(doc(db, 'users', user.uid), {
             uid: user.uid,
             displayName: username,

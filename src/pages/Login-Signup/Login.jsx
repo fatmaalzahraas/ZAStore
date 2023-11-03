@@ -18,8 +18,8 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import {auth} from '../../firebase.config';
 import {toast} from 'react-toastify';
 import {useNavigate} from 'react-router-dom';
-import Loading from '../../customHooks/Loading';
-import GetData from "../../customHooks/GetData";
+import Loading from '../../components/Loading';
+import useGetUsers from "../../customHooks/useGetUsers";
 const FormGroup = styled.div`
   &:nth-of-type(2) {
     position: relative;
@@ -31,7 +31,7 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(null);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const {data} = GetData();
+  const {data} = useGetUsers();
   const signIn = async (e) => {
     e.preventDefault();
     setLoading(true);

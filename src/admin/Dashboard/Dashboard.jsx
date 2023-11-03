@@ -1,5 +1,5 @@
 import React from "react";
-import WithGuard from "../../customHooks/WithGuard";
+import WithGuard from "../../components/WithGuard";
 import PageTitle from "../../components/PageTitle/PageTitle";
 import PageUi from "../../components/PageBeginngUi/PageUi";
 import {
@@ -17,13 +17,13 @@ import { motion } from "framer-motion";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchProducts } from "../../redux-toolkit/productsSlice";
 import { useEffect } from "react";
-import Loading from "../../customHooks/Loading";
-import GetData from "../../customHooks/GetData";
+import Loading from "../../components/Loading";
+import useGetUsers from "../../customHooks/useGetUsers";
 import UseAuth from "../../customHooks/UseAuth";
 import AdminNavbar from "../AdminNavbar/AdminNavbar";
 import { useNavigate } from "react-router-dom";
 const Dashboard = () => {
-  const { data, load } = GetData();
+  const { data, load } = useGetUsers();
   const { currentUser } = UseAuth();
   const navigate = useNavigate();
   const user = data?.find((el) => el.uid === currentUser?.uid);

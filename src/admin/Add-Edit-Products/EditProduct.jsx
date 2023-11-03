@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import WithGuard from "../../customHooks/WithGuard";
+import WithGuard from "../../components/WithGuard";
 import { MainContainer } from "../../globalStyles/Global.styles";
 import {
   AddEditProductsSection,
@@ -21,7 +21,7 @@ import {
 import PageTitle from "../../components/PageTitle/PageTitle";
 import { toast } from "react-toastify";
 import { useNavigate, useParams } from "react-router-dom";
-import Loading from "../../customHooks/Loading";
+import Loading from '../../components/Loading'
 import {
   fetchProductDetails,
   updateProduct,

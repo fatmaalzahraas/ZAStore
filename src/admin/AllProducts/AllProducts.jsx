@@ -1,12 +1,12 @@
 import React, {useEffect} from 'react'
-import WithGuard from '../../customHooks/WithGuard';
+import WithGuard from '../../components/WithGuard';
 import { AllProductsContent, AllProductsSection, BtnWrapper, DeleteBtn, EditBtn, ProductImg, ReadBtn, Table, Tbody, Td, Th, Thead, Tr } from './AllProducts.style';
 import {MainContainer} from '../../globalStyles/Global.styles';
 import PageTitle from '../../components/PageTitle/PageTitle';
 import PageUi from '../../components/PageBeginngUi/PageUi';
 import {fetchProducts, deleteProduct} from '../../redux-toolkit/productsSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import Loading from '../../customHooks/Loading';
+import Loading from '../../components/Loading';
 import { useNavigate } from 'react-router-dom';
 import AdminNavbar from '../AdminNavbar/AdminNavbar';
 const AllProducts = () => {
