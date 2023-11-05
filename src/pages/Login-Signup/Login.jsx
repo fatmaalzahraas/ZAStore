@@ -38,21 +38,10 @@ const Login = () => {
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
-      data?.map(el => {
-        if (user.uid === el.id) {
-          if (el.isAdmin === true) {
-            setLoading(false);
-             toast.success(`Successfully logged in as admin ${user.displayName}`);
-              navigate('/dashboard');
-          }
-          else {
-            setLoading(false);
-            toast.success(`Successfully logged in ${user.displayName}`);
-            navigate('/checkout');
-          }
-        }
-        return user;
-      })
+      const userFound = data?.find(el => el.uid === user.uid);
+      setLoading(false);
+      toast.success(`Successfully logged in ${userFound?.isAdmin ? 'as admin' : ''} ${user.displayName}`);
+      navigate('/', {replace: true});
     } catch(error) {
       setLoading(false);
       toast.error(`User Not Found! Please create an account first`);

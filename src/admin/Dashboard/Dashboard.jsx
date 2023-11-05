@@ -19,12 +19,12 @@ import { fetchProducts } from "../../redux-toolkit/productsSlice";
 import { useEffect } from "react";
 import Loading from "../../components/Loading";
 import useGetUsers from "../../customHooks/useGetUsers";
-import UseAuth from "../../customHooks/UseAuth";
+import useAuth from "../../customHooks/useAuth";
 import AdminNavbar from "../AdminNavbar/AdminNavbar";
 import { useNavigate } from "react-router-dom";
 const Dashboard = () => {
   const { data, load } = useGetUsers();
-  const { currentUser } = UseAuth();
+  const { currentUser } = useAuth();
   const navigate = useNavigate();
   const user = data?.find((el) => el.uid === currentUser?.uid);
   const { products, error } = useSelector((state) => state.products);

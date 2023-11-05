@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState, useMemo} from "react";
+import React, { useRef, useEffect, useState} from "react";
 import {
   CartBagContainer,
   CartBagIcon,
@@ -25,7 +25,7 @@ import {
 import { motion } from "framer-motion";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import UseAuth from "../../customHooks/UseAuth";
+import useAuth from "../../customHooks/useAuth";
 import { signOut } from "firebase/auth";
 import { auth } from "../../firebase.config";
 import { toast } from "react-toastify";
@@ -50,22 +50,9 @@ const Header = () => {
   const navbarRef = useRef(null);
   const navigationRef = useRef(null);
   const navigate = useNavigate();
-  const { currentUser } = UseAuth();
+  const { currentUser } = useAuth();
   const {data} = useGetUsers();
   const [user, setUser] = useState(false);
-  useMemo(() => {
-    return data?.map(el => {
-      if (currentUser?.uid === el.id) {
-        if (el.isAdmin === true) {
-          setUser(true);
-        }
-        else {
-          setUser(false);
-        }
-      }
-      return user
-    });
-  }, [currentUser?.uid, data, user])
   const profileActions = useRef(null);
   const toggleProfileActions = () => {
     profileActions.current.classList.toggle("show");
@@ -96,6 +83,14 @@ const Header = () => {
       }
     });
   };
+  useEffect(() => {
+    if (currentUser) {
+      const user = data?.find(el => el.uid === currentUser.uid)
+      if (user) {
+        setUser(user.isAdmin === true);
+      }
+    }
+  }, [currentUser, data])
   useEffect(() => {
     stickyNavbar();
     return () => window.removeEventListener("scroll", stickyNavbar);

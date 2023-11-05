@@ -68,6 +68,7 @@ const Signup = () => {
     setUsername("");
     setFile("");
   }
+ 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [])

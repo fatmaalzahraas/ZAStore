@@ -16,7 +16,6 @@ import { useDispatch } from "react-redux";
 import { addToCart } from "../../redux-toolkit/cartSlice";
 import { toast } from "react-toastify";
 import { useLocation } from "react-router-dom";
-import UseAuth from '../../customHooks/UseAuth';
 const ProductCard = ({ item }) => {
   let location = useLocation();
   const dispatch = useDispatch();

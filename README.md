@@ -3,10 +3,10 @@
 # Github zastore link
 `https://github.com/fatmaalzahraas/zastore.git`
 
-# Run project
-## `npm install`
-## `npm start`
+# ZAStore eCommerce website
+## link `http://localhost:3000`
+## run `npm start`
 
 # Database on json-server
-## link `http://localhost:8000/products`
+## link `http://localhost:5000/products`
 ## run `npm run server`
